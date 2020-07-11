@@ -2,6 +2,7 @@
     <string name="app_name">日程记账本</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="version_name">日程记账本 V1.0</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
