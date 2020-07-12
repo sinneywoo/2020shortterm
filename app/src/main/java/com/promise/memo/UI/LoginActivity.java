@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -18,22 +19,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.promise.memo.qq.QQLogin;
 import com.promise.memo.DB.UserDao;
 import com.promise.memo.R;
 import com.promise.memo.Util.EditTextClearTools;
 import com.promise.memo.Util.PermissionsUtil;
+import com.promise.memo.qq.QQLogin;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
 
     private EditText userName,passWord;
     private ImageView unameClear,pwdClear;
     private TextView userReg;
     private CircleImageView iv_icon;
-    private Button login;
+    private Button login,qqlogin;
     private UserDao userdao;
     private SharedPreferences sp;
     private SharedPreferences.Editor ed;
@@ -43,7 +45,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
+        QQLogin.INSTANCE.initQQ(LoginActivity.this);//初始化QQ第三方登录
         PermissionsUtil.checkAndRequestPermissions(this);
         init();//初始化组件
         loadSP();//读取SharedPreferences数据
@@ -57,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         iv_icon= (CircleImageView) findViewById(R.id.iv_icon);
         userReg = (TextView) findViewById(R.id.link_signup);
         login= (Button) findViewById(R.id.btn_login);
+        qqlogin=(Button) findViewById(R.id.qq_login);
         EditTextClearTools.addClearListener(userName,unameClear);
         EditTextClearTools.addClearListener(passWord,pwdClear);
 
@@ -123,6 +128,27 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+//    private void qqlogin() {
+//        userdao = new UserDao(LoginActivity.this);
+//        final String username="124";
+//        final String password="123";
+//
+//        Cursor cursor = userdao.query(username.trim(), password.trim());
+//        if (cursor.moveToNext()) {
+//            Intent intent = new Intent();
+//            intent.setClass(LoginActivity.this,MainActivity.class);
+//            intent.putExtra("login_user",username);
+//
+//            cursor.close();
+//
+//            startActivity(intent);
+//            finish();
+//        }else{
+//            Toast.makeText(LoginActivity.this, "密码验证失败，请重新验证登录", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
     private void goReg() {
         userReg.setTextColor(Color.rgb(0, 0, 0));
         Intent intent = new Intent(getApplicationContext(), RegActivity.class);
@@ -146,9 +172,42 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
-
+        qqlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QQLogin.INSTANCE.loginByQQ(LoginActivity.this);            }
+        });
 
     }
+
+@Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent data){
+        QQLogin.INSTANCE.onActivityResultHandle(requestCode,resultCode,data,LoginActivity.this);
+    }
+
+//@Override
+//    public void onClick(View view){
+//        switch (view.getId()){
+//            case R.id.qq_login:
+//                QQLogin.INSTANCE.loginByQQ(LoginActivity.this);
+//                userdao = new UserDao(LoginActivity.this);
+//                final String username="。";
+//                final String password="123";
+//                Cursor cursor = userdao.query(username.trim(), password.trim());
+//                if (cursor.moveToNext()) {
+//                    Intent intent = new Intent();
+//                    intent.setClass(LoginActivity.this,MainActivity.class);
+//                    intent.putExtra("login_user",username);
+//
+//                    cursor.close();
+//
+//                    startActivity(intent);
+//                    finish();
+//                }
+////                break;
+//        }
+//    }
+
 
     @Override
     public void onBackPressed()
@@ -164,4 +223,8 @@ public class LoginActivity extends AppCompatActivity {
         mBackPressed = System.currentTimeMillis();
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
