@@ -3,17 +3,22 @@ package com.promise.memo.UI;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import androidx.core.view.MenuItemCompat;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.promise.memo.Bean.NoteBean;
 import com.promise.memo.DB.NoteDao;
 import com.promise.memo.R;
@@ -32,7 +37,7 @@ public class NoteActivity extends AppCompatActivity {
     private String myRemind_time;
     private NoteDao noteDao;
     private SwitchCompat switchbt;
-
+    private ImageView imageView;
     private ProgressDialog loadingDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,7 @@ public class NoteActivity extends AppCompatActivity {
         loadingDialog.setCanceledOnTouchOutside(false);
 
         tv_note_title = (TextView) findViewById(R.id.tv_note_title);//标题
+        imageView=findViewById(R.id.iv_image);
         tv_note_title.setTextIsSelectable(true);
         tv_note_content = (TextView) findViewById(R.id.tv_note_content);//内容
         tv_note_create_time = (TextView) findViewById(R.id.tv_note_create_time);
@@ -70,16 +76,12 @@ public class NoteActivity extends AppCompatActivity {
         tv_note_content.setText(myContent);
         tv_note_create_time.setText(myCreate_time);
         tv_note_remind_time.setText(myRemind_time);
+        if (!TextUtils.isEmpty(note.getImage())){
+            Glide.with(this).load(note.getImage()).into(imageView);
+
+        }
         setTitle("笔记详情");
-
-
-
-
-
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -88,13 +90,13 @@ public class NoteActivity extends AppCompatActivity {
         switchbt=(SwitchCompat)MenuItemCompat.getActionView(switchButton);
         switchbt.setChecked(note.getMark()==0?false:true);
         switchbt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        note.setMark(b==true?1:0);
-                        noteDao.updateNote(note);
-                        Toast.makeText(getApplicationContext(),b==true?"成功标记为已完成":"成功标记为未完成",Toast.LENGTH_SHORT).show();
-                    }
-                });
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                note.setMark(b==true?1:0);
+                noteDao.updateNote(note);
+                Toast.makeText(getApplicationContext(),b==true?"成功标记为已完成":"成功标记为未完成",Toast.LENGTH_SHORT).show();
+            }
+        });
         return true;
     }
 

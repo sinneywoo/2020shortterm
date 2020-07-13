@@ -17,6 +17,15 @@ public class NoteBean implements Serializable {
     private String year;
     private String month;
     private String day;
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getDay() {
         return day;

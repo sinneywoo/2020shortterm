@@ -22,6 +22,7 @@ public class noteDBHelper extends SQLiteOpenHelper {
                 "year varchar,"+
                 "month varchar,"+
                 "day varchar,"+
+                "image varchar,"+
                 "updateTime varchar,"+
                 "remindTime varchar,"+
                 "note_owner varchar)";

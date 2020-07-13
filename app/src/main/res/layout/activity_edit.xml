@@ -50,15 +50,50 @@ tools:context="com.promise.memo.UI.EditActivity">
         android:layout_alignBottom="@+id/tv_remindtime" />
 
 </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/et_new_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:textSize="@dimen/text_size_16"
+            android:padding="@dimen/activity_margin_16"
+            android:gravity="top"
+            android:background="@null"
+            android:textColor="@color/grey_600"/>
+        <ImageView
+            android:id="@+id/iv_edit"
+            android:layout_below="@id/et_new_content"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:background="#0D000000"
+            android:orientation="horizontal">
 
-<EditText
-    android:id="@+id/et_new_content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:textSize="@dimen/text_size_16"
-    android:padding="@dimen/activity_margin_16"
-    android:gravity="top"
-    android:background="@null"
-    android:textColor="@color/grey_600"/>
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/iv_photo" />
+
+            <ImageView
+                android:id="@+id/iv_camera"
+                android:layout_width="30dp"
+
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="40dp"
+                android:src="@mipmap/iv_camcer" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 </LinearLayout>

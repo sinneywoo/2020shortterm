@@ -44,7 +44,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
 
     public void setmNotes(List<NoteBean> notes) {
         this.mNotes = notes;
-}
+    }
 
     @Override
     public void onClick(View v) {

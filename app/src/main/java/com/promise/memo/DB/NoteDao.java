@@ -35,6 +35,7 @@ public class NoteDao {
         cv.put("year", bean.getYear());
         cv.put("month", bean.getMonth());
         cv.put("day", bean.getDay());
+        cv.put("image", bean.getImage());
 
         sqLiteDatabase.insert("note_data", null, cv);
     }
@@ -61,6 +62,8 @@ public class NoteDao {
         cv.put("note_mark", note.getMark());
         cv.put("updateTime", note.getUpdateTime());
         cv.put("remindTime", note.getRemindTime());
+        cv.put("image", note.getImage());
+
         db.update("note_data", cv, "note_id=?", new String[]{note.getId() + ""});
         db.close();
     }
@@ -91,6 +94,7 @@ public class NoteDao {
             note.setYear(cursor.getString(cursor.getColumnIndex("year")));
             note.setMonth(cursor.getString(cursor.getColumnIndex("month")));
             note.setDay(cursor.getString(cursor.getColumnIndex("day")));
+            note.setImage(cursor.getString(cursor.getColumnIndex("image")));
 
             note.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));
             note.setUpdateTime(cursor.getString(cursor.getColumnIndex("updateTime")));
@@ -134,6 +138,8 @@ public class NoteDao {
             note.setUpdateTime(cursor.getString(cursor.getColumnIndex("updateTime")));
             note.setRemindTime(cursor.getString(cursor.getColumnIndex("remindTime")));
             note.setYear(cursor.getString(cursor.getColumnIndex("year")));
+            note.setImage(cursor.getString(cursor.getColumnIndex("image")));
+
             note.setMonth(cursor.getString(cursor.getColumnIndex("month")));
             note.setDay(cursor.getString(cursor.getColumnIndex("day")));
             noteList.add(note);
@@ -176,6 +182,8 @@ public class NoteDao {
             note.setRemindTime(cursor.getString(cursor.getColumnIndex("remindTime")));
             note.setYear(cursor.getString(cursor.getColumnIndex("year")));
             note.setMonth(cursor.getString(cursor.getColumnIndex("month")));
+            note.setImage(cursor.getString(cursor.getColumnIndex("image")));
+
             note.setDay(cursor.getString(cursor.getColumnIndex("day")));
 
             noteList.add(note);

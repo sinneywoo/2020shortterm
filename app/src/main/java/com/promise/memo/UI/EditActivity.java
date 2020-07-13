@@ -4,25 +4,39 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Environment;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.promise.memo.Bean.NoteBean;
 import com.promise.memo.DB.NoteDao;
 import com.promise.memo.R;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class EditActivity extends AppCompatActivity {
     private EditText et_new_title;
@@ -41,6 +55,9 @@ public class EditActivity extends AppCompatActivity {
     private Calendar calendar;
     private String login_user;
     private int flag;//区分是新建还是修改
+    private ImageView ivPhoto, ivCanmer;
+    private String path = "";
+    private ImageView ivEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +116,21 @@ public class EditActivity extends AppCompatActivity {
         et_new_content = (EditText) findViewById(R.id.et_new_content);
         tv_time = (TextView) findViewById(R.id.tv_remindtime);
         spinner = (Spinner) findViewById(R.id.type_select);
-
+        ivEdit = findViewById(R.id.iv_edit);
+        ivPhoto = findViewById(R.id.iv_photo);
+        ivCanmer = findViewById(R.id.iv_camera);
+        ivCanmer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initPicker();
+            }
+        });
+        ivPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initPicker();
+            }
+        });
         Intent intent = getIntent();
         flag = intent.getIntExtra("flag", 0);//0新建，1编辑
         login_user = intent.getStringExtra("login_user");
@@ -120,6 +151,7 @@ public class EditActivity extends AppCompatActivity {
             mySelect_time = note.getRemindTime();
             login_user = note.getOwner();
             myType = note.getType();
+            path = note.getImage();
             setTitle("编辑笔记");
             for (int i = 0; i < 5; i++) {
                 if (spinner.getItemAtPosition(i).toString().equals(myType)) {
@@ -129,6 +161,9 @@ public class EditActivity extends AppCompatActivity {
             et_new_title.setText(note.getTitle());
             et_new_content.setText(note.getContent());
             tv_time.setText(mySelect_time);
+            if (!TextUtils.isEmpty(path)){
+                Glide.with(this).load(path).into(ivEdit);
+            }
 
         }
     }
@@ -138,6 +173,37 @@ public class EditActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateNowStr = sdf.format(d);
         return dateNowStr;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择结果回调
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    // 例如 LocalMedia 里面返回三种path
+                    // 1.media.getPath(); 为原图path
+                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
+                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
+                    // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
+
+                    LocalMedia media = selectList.get(0);
+                    if (media.isCut()) {
+                        path = media.getCutPath();
+
+                    } else {
+                        path = media.getPath();
+                    }
+                    Glide.with(this).load(path).into(ivEdit);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override
@@ -191,6 +257,7 @@ public class EditActivity extends AppCompatActivity {
         note.setMonth((calendar.get(Calendar.MONTH) + 1) + "");
         note.setDay(calendar.get(Calendar.DAY_OF_MONTH) + "");
         note.setMark(0);
+        note.setImage(path);
         note.setRemindTime(noteremindTime);
         note.setType(spinner.getSelectedItem().toString());
         note.setOwner(login_user);
@@ -203,6 +270,46 @@ public class EditActivity extends AppCompatActivity {
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    private void initPicker() {
+        PictureSelector.create(EditActivity.this)
+                .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                .theme(R.style.picture_default_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style
+                .maxSelectNum(1)// 最大图片选择数量 int
+                .minSelectNum(1)// 最小选择数量 int
+                .imageSpanCount(4)// 每行显示个数 int
+                .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                .previewImage(true)// 是否可预览图片 true or false
+                .previewVideo(false)// 是否可预览视频 true or false
+                .enablePreviewAudio(false) // 是否可播放音频 true or false
+                .isCamera(true)// 是否显示拍照按钮 true or false
+                .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                .sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                .enableCrop(false)// 是否裁剪 true or false
+                .compress(true)// 是否压缩 true or false
+                .glideOverride(320, 320)// int glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
+                .withAspectRatio(2, 1)// int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                .isGif(false)// 是否显示gif图片 true or false
+                .compressSavePath(getPath())//压缩图片保存地址
+                .freeStyleCropEnabled(true)// 裁剪框是否可拖拽 true or false
+                .circleDimmedLayer(false)// 是否圆形裁剪 true or false
+                .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false   true or false
+                .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false    true or false
+                .openClickSound(false)// 是否开启点击声音 true or false
+                .minimumCompressSize(100)// 小于100kb的图片不压缩
+                .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+    }
+
+    private String getPath() {
+        String path = Environment.getExternalStorageDirectory() + "/Luban/image/";
+        File file = new File(path);
+        if (file.mkdirs()) {
+            return path;
+        }
+        return path;
     }
 
     @Override
