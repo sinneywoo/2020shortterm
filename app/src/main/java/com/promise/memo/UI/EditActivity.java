@@ -31,8 +31,10 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.promise.memo.Bean.NoteBean;
 import com.promise.memo.DB.NoteDao;
 import com.promise.memo.R;
+import com.promise.memo.Util.CalendarReminderUtils;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -170,7 +172,7 @@ public class EditActivity extends AppCompatActivity {
 
     private String getNowTime() {
         Date d = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String dateNowStr = sdf.format(d);
         return dateNowStr;
     }
@@ -266,6 +268,14 @@ public class EditActivity extends AppCompatActivity {
         } else if (flag == 1) {//修改笔记
             note.setId(noteID);
             noteDao.updateNote(note);
+        }
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date parse = sdf.parse(noteremindTime);
+            CalendarReminderUtils.addCalendarEvent(this, noteTitle, noteContent, parse.getTime(), 0);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);

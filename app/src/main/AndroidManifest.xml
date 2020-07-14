@@ -7,7 +7,31 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--    获取设备网络状态，禁用后无法获取网络状态-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--    网络权限，当禁用后，无法进行检索等相关业务-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--    读取设备硬件信息，统计数据-->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <!--    读取系统信息，包含系统版本等信息，用作统计-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!--    获取设备的网络状态，鉴权所需网络代理-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--    允许sd卡写权限，需写入地图数据，禁用后无法显示地图-->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--    获取统计数据-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--    使用步行AR导航，配置Camera权限-->
+    <!--    访问精确位置的权限-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--    这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
 
     <application
         android:allowBackup="true"
@@ -16,7 +40,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.HomeActivity"></activity>
+        <activity android:name="com.promise.memo.UI.HomeActivity"></activity>
 <!--        <activity-->
 <!--            android:name=".UI.SplashActivity"-->
 <!--            android:theme="@style/SplashTheme">-->
@@ -26,7 +50,7 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
 <!--        </activity>-->
-        <activity android:name=".UI.LauncherActivity"
+        <activity android:name="com.promise.memo.UI.LauncherActivity"
             android:theme="@style/NoActivityFullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,31 +59,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.GuideActivity"
+            android:name="com.promise.memo.UI.GuideActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActivityFullscreen" />
         <activity
-            android:name=".UI.LoginActivity"
+            android:name="com.promise.memo.UI.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".UI.RegActivity"
+            android:name="com.promise.memo.UI.RegActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".UI.ImpressActivity"
+            android:name="com.promise.memo.UI.ImpressActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".UI.MainActivity"
+            android:name="com.promise.memo.UI.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UI.NoteActivity" />
-        <activity android:name=".UI.EditActivity" />
-        <activity android:name=".UI.CalenderActivity" />
-        <activity android:name=".UI.AddRecordActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".UI.RecordActivity"/>
-
+        <activity
+            android:name="com.promise.memo.baidumap.Mapmain"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
+        <activity android:name="com.promise.memo.UI.NoteActivity" />
+        <activity android:name="com.promise.memo.UI.EditActivity" />
+        <activity android:name="com.promise.memo.UI.CalenderActivity" />
+        <activity android:name="com.promise.memo.UI.AddRecordActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.promise.memo.UI.RecordActivity"/>
+        <activity android:name="com.promise.memo.UI.InvestmentActivity"/>
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:noHistory="true"
@@ -76,6 +104,16 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="fmLk1mohixpF0ZLtzyXEsCTbA9XWrbdG" />
+
     </application>
 
 </manifest>

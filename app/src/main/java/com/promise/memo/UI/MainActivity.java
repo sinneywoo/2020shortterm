@@ -49,6 +49,7 @@ import com.promise.memo.DB.UserDao;
 import com.promise.memo.R;
 import com.promise.memo.Util.EditTextClearTools;
 import com.promise.memo.Util.SpacesItemDecoration;
+import com.promise.memo.baidumap.Mapmain;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -307,6 +308,12 @@ public class MainActivity extends AppCompatActivity
             });
             builder.setNegativeButton("取消", null);
             builder.create().show();
+
+        }else if (id == R.id.nav_map) {//查看地图
+            startActivity(new Intent(MainActivity.this, Mapmain.class));
+
+        }else if (id == R.id.nav_invest) {//查看投资
+            startActivity(new Intent(MainActivity.this, InvestmentActivity.class));
 
         }
 
@@ -585,6 +592,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
+
+
     @Override
     public void onBackPressed() {
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
@@ -598,4 +608,6 @@ public class MainActivity extends AppCompatActivity
         mBackPressed = System.currentTimeMillis();
     }
 }
+
+
 

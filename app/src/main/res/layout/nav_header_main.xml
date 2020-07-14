@@ -20,28 +20,28 @@
 
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_18"
-            android:text="欢迎您"
-            android:paddingLeft="20dp"
-            android:layout_above="@+id/tv_loginuser"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:layout_toEndOf="@+id/iv_user" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_18"
+        android:text="欢迎您"
+        android:paddingLeft="20dp"
+        android:layout_above="@+id/tv_loginuser"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_toEndOf="@+id/iv_user" />
 
-        <TextView
-            android:id="@+id/tv_loginuser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="user"
-            android:paddingLeft="20dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="@dimen/text_size_18"
-            android:layout_alignBottom="@+id/iv_user"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/iv_user" />
+    <TextView
+        android:id="@+id/tv_loginuser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="user"
+        android:paddingLeft="20dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="@dimen/text_size_18"
+        android:layout_alignBottom="@+id/iv_user"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/iv_user" />
 
 
 

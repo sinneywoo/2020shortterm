@@ -40,6 +40,14 @@
                 android:id="@+id/nav_exit"
                 android:icon="@drawable/ic_menu_goto"
                 android:title="退出日程录" />
+            <item
+                android:id="@+id/nav_map"
+                android:icon="@drawable/map"
+                android:title="定位" />
+            <item
+                android:id="@+id/nav_invest"
+                android:icon="@drawable/invest"
+                android:title="投资" />
         </menu>
     </item>
 

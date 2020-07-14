@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity{
     }
 
 
-//    private void qqlogin() {
+    //    private void qqlogin() {
 //        userdao = new UserDao(LoginActivity.this);
 //        final String username="124";
 //        final String password="123";
@@ -180,7 +180,7 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
-@Override
+    @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
         QQLogin.INSTANCE.onActivityResultHandle(requestCode,resultCode,data,LoginActivity.this);
     }

@@ -8,8 +8,6 @@ import android.widget.Toast;
 
 import com.promise.memo.UI.ImpressActivity;
 import com.promise.memo.UI.LoginActivity;
-import com.promise.memo.UI.MainActivity;
-import com.promise.memo.UI.RegActivity;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
 import com.tencent.open.utils.HttpUtils;
